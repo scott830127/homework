@@ -30,7 +30,7 @@ public class controller {
 	
 	private StringUtil stringUtil;
 
-	@RequestMapping(value = "/saveEmployee", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/saveEmployee", method = RequestMethod.GET, produces = "application")
 	public void saveEmployee(HttpServletRequest req) {
 		String name = (String) req.getAttribute("name");
 		String employeeId = (String) req.getAttribute("employeeId");
@@ -51,7 +51,7 @@ public class controller {
 		employeeService.save(employeeBean);
     }
 	
-	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET, produces = "application")
 	public void deleteEmployee(HttpServletRequest req) {
 		String employeeId = (String) req.getAttribute("employeeId");
 		
@@ -64,7 +64,7 @@ public class controller {
 		});
     }
 	
-	@RequestMapping(value = "/updateEmployee", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/updateEmployee", method = RequestMethod.GET, produces = "application")
 	public void updateEmployee(HttpServletRequest req) {
 		String name = (String) req.getAttribute("name");
 		String employeeId = (String) req.getAttribute("employeeId");
@@ -89,7 +89,7 @@ public class controller {
 		});
     }
 	
-	@RequestMapping(value = "/saveDepartment", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/saveDepartment", method = RequestMethod.GET, produces = "application")
 	public void saveDepartment(HttpServletRequest req) {
 		String departmentName = (String) req.getAttribute("departmentName");
 		String departmentId = (String) req.getAttribute("departmentId");
@@ -100,7 +100,7 @@ public class controller {
 		departmentService.save(departmentBean);
     }
 	
-	@RequestMapping(value = "/deleteDepartment", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/deleteDepartment", method = RequestMethod.GET, produces = "application")
 	public void deleteDepartment(HttpServletRequest req) {
 		String departmentId = (String) req.getAttribute("departmentId");
 		
@@ -113,7 +113,7 @@ public class controller {
 		});
     }
 	
-	@RequestMapping(value = "/updateDepartment", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/updateDepartment", method = RequestMethod.GET, produces = "application")
 	public void updateDepartment(HttpServletRequest req) {
 		String departmentName = (String) req.getAttribute("departmentName");
 		String departmentId = (String) req.getAttribute("departmentId");
@@ -129,8 +129,8 @@ public class controller {
 		});
     }
 	
-	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = "application/json")
-	public List<EmployeeDetail> get(HttpServletRequest req) {
+	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = "application")
+	public List<EmployeeBean> get(HttpServletRequest req) {
 		String name = (String) req.getAttribute("name");
 		String employeeId = (String) req.getAttribute("employeeId");
 		Integer age = (Integer) req.getAttribute("age");
