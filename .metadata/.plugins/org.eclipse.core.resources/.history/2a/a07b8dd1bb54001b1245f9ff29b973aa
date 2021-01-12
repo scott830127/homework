@@ -1,0 +1,11 @@
+package com.company.api.dao;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.company.api.entity.employee;
+
+@Repository
+public interface departmentDao CrudRepository<department, Long> {
+
+}

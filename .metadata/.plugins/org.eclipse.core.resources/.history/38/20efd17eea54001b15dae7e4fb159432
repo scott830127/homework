@@ -1,0 +1,60 @@
+package com.company.api.service;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.company.api.bean.EmployeeBean;
+import com.company.api.dao.EmployeeDao;
+import com.company.api.entity.Employee;
+
+@Service
+public class EmployeeService {
+	
+	@Autowired
+    private EmployeeDao employeeDao;
+	
+	public void save(EmployeeBean employeeBean) {
+		Date date = new Date();
+		Employee entity = new Employee();
+        entity.setName(employeeBean.getName());
+        entity.setEmployee_id(employeeBean.getEmployeeId());
+        entity.setDepartment_id(employeeBean.getDepartmentId());
+        entity.setSex(employeeBean.getSex());
+        entity.setPhone(employeeBean.getPhone());
+        entity.setAddress(employeeBean.getAddress());
+        entity.setAge(employeeBean.getAge());
+        entity.setInsert_date(date);
+        entity.setUpdate_date(date);
+        employeeDao.save(entity);
+    }
+    
+    public EmployeeBean get(long id) {
+    	Employee entity = employeeDao.findById(id).orElse(new Employee());
+    	EmployeeBean employeeBean = new EmployeeBean();
+    	employeeBean.setId(entity.getId());
+    	employeeBean.setName(entity.getName());
+    	employeeBean.setAddress(entity.getAddress());
+        return employeeBean;
+    }
+
+    public void delete(long id) {
+    	employeeDao.deleteById(id);
+    }
+    
+    public void update(EmployeeBean employeeBean) {
+    	Date date = new Date();
+    	Employee entity = employeeDao.findById(employeeBean.getId()).get();
+    	if(employeeBean != null) entity.setName(employeeBean.getName());
+        entity.setEmployee_id(employeeBean.getEmployeeId());
+        entity.setDepartment_id(employeeBean.getDepartmentId());
+        entity.setSex(employeeBean.getSex());
+        entity.setPhone(employeeBean.getPhone());
+        entity.setAddress(employeeBean.getAddress());
+        entity.setAge(employeeBean.getAge());
+        entity.setInsert_date(entity.getInsert_date());
+        entity.setUpdate_date(date);
+    	employeeDao.save(entity);
+    }
+}

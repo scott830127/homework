@@ -1,0 +1,24 @@
+package com.company.api.entity;
+
+import java.sql.Date;
+
+import org.springframework.data.annotation.Id;
+
+public class employee {
+	@Id
+	private Long id;
+	private String name;
+	private String employee_id;
+	private String department_id;
+	private String sex;
+	private String phone;
+	private String address;
+	private Integer age;
+	private Date insert_date;
+	private Date update_date;
+
+	@Override
+	public String toString() {
+		return String.format("Customer[id=%d, name='%s', address='%s']", id, name, address);
+	}
+}

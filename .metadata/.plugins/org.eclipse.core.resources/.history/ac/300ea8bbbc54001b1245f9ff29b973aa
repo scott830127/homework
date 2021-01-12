@@ -1,0 +1,33 @@
+package com.company.api.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.company.api.bean.EmployeeBean;
+import com.company.api.dao.EmployeeDao;
+import com.company.api.entity.Employee;
+
+@Service
+public class EmployeeService {
+	@Autowired
+    private EmployeeDao employeeDao;
+	
+	public void add(EmployeeBean employeeBean) {
+		Employee entity = new Employee();
+        entity.setId(employeeBean.getId());
+        entity.setName(employeeBean.getName());
+        entity.setAddress(employeeBean.getAddress());
+        employeeDao.save(entity);
+    }
+    
+    public CustomerBo get(long id) {
+        Customer entity = customerDao.findById(id).orElse(new Customer());
+        CustomerBo bo = new CustomerBo();
+        bo.setId(entity.getId());
+        bo.setName(entity.getName());
+        bo.setAddress(entity.getAddress());
+        
+        return bo;
+    }
+
+}

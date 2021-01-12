@@ -1,0 +1,13 @@
+package com.company.api.bean;
+
+public class EmployeeDetail {
+	private String name;
+	private String employeeId;
+	private String departmentId;
+	private String departmentName;
+	private String sex;
+	private String phone;
+	private String address;
+	private Integer age;
+
+}

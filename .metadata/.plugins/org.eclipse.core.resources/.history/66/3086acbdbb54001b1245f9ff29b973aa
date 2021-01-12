@@ -1,0 +1,9 @@
+package com.company.api.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.company.api.entity.employee;
+
+public interface employeeDao extends CrudRepository<employee, Long> {
+
+}

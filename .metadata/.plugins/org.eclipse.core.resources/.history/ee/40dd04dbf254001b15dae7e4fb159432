@@ -1,0 +1,80 @@
+package com.company.api.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import com.company.api.bean.DepartmentBean;
+import com.company.api.bean.EmployeeBean;
+import com.company.api.dao.DepartmentDao;
+import com.company.api.entity.Department;
+import com.company.api.entity.Employee;
+import com.company.api.util.StringUtil;
+
+
+@Service
+public class DepartmentService {
+	
+	@Autowired
+    private DepartmentDao departmentDao;
+	@Autowired
+    private StringUtil stringUtil;
+	
+	public void save(DepartmentBean departmentBean) {
+		Department entity = new Department();
+        entity.setDepartment_id(departmentBean.getDepartmentId());
+        entity.setDepartment_name(departmentBean.getDepartmentName());
+
+        departmentDao.save(entity);
+    }
+    
+    public List<EmployeeBean> get(EmployeeBean employeeBean) {
+    	Specification<Employee> specification = new Specification<Employee>() {
+            public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<Predicate>();
+                if (stringUtil.isNotEmpty(employeeBean.getName())) {
+                    predicates.add(cb.equal(root.<String>get("name"), employeeBean.getName()));
+                }
+                if (stringUtil.isNotEmpty(employeeBean.getEmployeeId())) {
+                    predicates.add(cb.equal(root.<String>get("employee_id"), employeeBean.getEmployeeId()));
+                }
+                if (employeeBean.getAge()!=null) {
+                    predicates.add(cb.equal(root.<Integer>get("age"), employeeBean.getName()));
+                }
+                if (stringUtil.isNotEmpty(employeeBean.getDepartmentId())) {
+                    predicates.add(cb.equal(root.<String>get("department_id"), employeeBean.getDepartmentId()));
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        List<Employee> employeeList = employeeDao.findAll(specification);
+        List<EmployeeBean> employeeBeanList = new ArrayList<EmployeeBean>();
+        for (Employee employee : employeeList) {
+        	EmployeeBean bean = new EmployeeBean();
+        	BeanUtils.copyProperties(employee, bean);
+        	employeeBeanList.add(bean);
+        }
+        return employeeBeanList;
+    }
+
+    public void delete(long id) {
+    	departmentDao.deleteById(id);
+    }
+    
+    public void update(DepartmentBean departmentBean) {
+    	Department entity = departmentDao.findById(departmentBean.getId()).get();
+        entity.setDepartment_name(stringUtil.isNotEmpty(departmentBean.getDepartmentName())?departmentBean.getDepartmentName():entity.getDepartment_name());
+        entity.setDepartment_id(stringUtil.isNotEmpty(departmentBean.getDepartmentId())?departmentBean.getDepartmentId():entity.getDepartment_id());
+        departmentDao.save(entity);
+    }
+}
