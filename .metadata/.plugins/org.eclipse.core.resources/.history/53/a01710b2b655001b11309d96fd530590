@@ -1,0 +1,58 @@
+package com.company.api;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.util.StringUtils;
+
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@EnableJpaRepositories("com.company.springboot.hibernate.dao")
+@EntityScan("com.company.springboot.hibernate.entity")
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+		String result = "";
+		try {
+			URL httpurl = new URL("http://localhost:8082/demo/api/company/saveEmployee");
+			HttpURLConnection httpConn = (HttpURLConnection) httpurl.openConnection();
+			httpConn.setDoOutput(true);
+			httpConn.setDoInput(true);
+			httpConn.setRequestMethod("POST");
+			httpConn.setRequestProperty("Content-Language", "UTF-8");
+
+			httpConn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+			httpConn.setRequestProperty("Accept", "application/json;charset=UTF-8");
+
+			// {"userpw":"uap6g4buystock","userid":"smartc","sl_key_item":}
+			String postParam = "{'name':'testname','employeeId':'01','departmentId':'01'}";
+			if (postParam != null && "".equals(postParam)) {
+				httpConn.setRequestProperty("Content-Length", "" + Integer.toString(postParam.getBytes().length));
+				OutputStream out = httpConn.getOutputStream();
+				out.write(postParam.getBytes("UTF-8"));
+				out.flush();
+				out.close();
+			}
+			BufferedReader in = new BufferedReader(new InputStreamReader(httpConn.getInputStream(), "UTF-8"));
+
+			String line;
+			while ((line = in.readLine()) != null) {
+				result += line;
+			}
+			in.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(result);
+	}
+
+}

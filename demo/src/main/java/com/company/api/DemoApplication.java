@@ -4,15 +4,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+import com.company.api.bean.DepartmentBean;
+import com.company.api.controller.Controller;
+
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @EnableJpaRepositories("com.company.springboot.hibernate.dao")
 @EntityScan("com.company.springboot.hibernate.entity")
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+
 	}
 
 }

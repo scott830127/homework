@@ -1,0 +1,29 @@
+package com.company.api;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.company.api.dao.DepartmentDao;
+import com.company.api.entity.Department;
+
+@SpringBootTest
+
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentDao departmentDao;
+
+	@Test
+	void contextLoads() {
+		Department entity = new Department();
+		entity.setDepartment_id("1");
+		entity.setDepartment_name("A");
+		departmentDao.save(entity);
+		Iterable<Department> departmentList = departmentDao.findAll();
+		departmentList.forEach(bean -> {
+			System.out.println(bean.toString());
+		});
+	}
+
+}

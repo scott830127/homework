@@ -1,0 +1,106 @@
+package com.company.api;
+
+import java.util.Date;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.company.api.bean.DepartmentBean;
+import com.company.api.bean.EmployeeBean;
+import com.company.api.dao.DepartmentDao;
+import com.company.api.dao.EmployeeDao;
+import com.company.api.entity.Department;
+import com.company.api.entity.Employee;
+import com.company.api.service.DepartmentService;
+import com.company.api.service.EmployeeService;
+
+@SpringBootTest
+
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@MockBean
+	private DepartmentDao departmentDao;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@MockBean
+	private EmployeeDao employeeDao;
+	
+	@LocalServerPort
+	private int port;
+	
+	@Value("${local.management.port}")
+	private int mgt;
+	
+	@Autowired
+	private TestRestTemplate testRestTemplate;
+
+	@Test
+	void contextLoads() {
+		//測試DepartmentDao增刪改
+		Department entityD = new Department();
+		entityD.setDepartment_id("1");
+		entityD.setDepartment_name("A");
+		departmentDao.save(entityD);
+		departmentDao.delete(entityD);
+		
+		//測試DepartmentService
+		DepartmentBean departmentBean = new DepartmentBean();
+		departmentBean.setDepartmentId("1");
+		departmentBean.setDepartmentName("A");
+		departmentService.save(departmentBean);
+		departmentService.delete(0);
+		departmentService.get(departmentBean);
+		
+		//測試EmployeeDao
+		Employee entityE = new Employee();
+		entityE.setDepartment_id("1");
+		entityE.setName("Curry");
+		entityE.setEmployee_id("30");
+		entityE.setDepartment_id("1");
+		entityE.setSex("boy");
+		entityE.setPhone("0911222333");
+        entityE.setAddress("Taipei");
+        entityE.setAge(30);
+        entityE.setInsert_date(new Date());
+        entityE.setUpdate_date(new Date());
+		employeeDao.save(entityE);
+		employeeDao.delete(entityE);
+		
+		//測試EmployeeService
+		EmployeeBean employeeBean = new EmployeeBean();
+		Date date = new Date();
+		employeeBean.setName("Curry");
+		employeeBean.setEmployeeId("30");
+		employeeBean.setDepartmentId("1");
+		employeeBean.setSex("boy");
+		employeeBean.setPhone("0911222333");
+		employeeBean.setAddress("Taipei");
+		employeeBean.setAge(30);
+		employeeBean.setInsertDate(date);
+		employeeBean.setUpdateDate(date);
+		employeeService.save(employeeBean);
+		employeeService.delete(0);
+		employeeService.get(employeeBean);
+		
+	}
+	@Test
+	  public void shouldReturn200WhenSendingRequestToManagementEndpoint() throws Exception {
+	    @SuppressWarnings("rawtypes")
+	    ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
+	        "http://localhost:" + this.mgt + "/actuator/info", Map.class);
+	  }
+
+}

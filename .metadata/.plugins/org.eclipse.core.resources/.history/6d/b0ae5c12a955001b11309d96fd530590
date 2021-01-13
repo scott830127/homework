@@ -1,0 +1,35 @@
+package com.company.api;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.company.api.dao.DepartmentDao;
+import com.company.api.entity.Department;
+
+@SpringBootTest
+@Configuration
+@ComponentScan({"com.company.api"})
+@EntityScan("com.company.api.entity")
+@EnableJpaRepositories("com.company.api.dao")
+@SpringBootApplication()
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentDao departmentDao;
+
+	@Test
+	void contextLoads() {
+		Department entity = new Department();
+		entity.setDepartment_id("1");
+		entity.setDepartment_name("A");
+		departmentDao.save(entity);
+		List<Department> departmentList = departmentDao.findAll();
+	}
+
+}

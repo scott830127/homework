@@ -1,0 +1,72 @@
+package com.company.api;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import com.company.api.bean.DepartmentBean;
+import com.company.api.dao.DepartmentDao;
+import com.company.api.dao.EmployeeDao;
+import com.company.api.entity.Department;
+import com.company.api.entity.Employee;
+import com.company.api.service.DepartmentService;
+import com.company.api.service.EmployeeService;
+
+@SpringBootTest
+
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@MockBean
+	private DepartmentDao departmentDao;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@MockBean
+	private EmployeeDao employeeDao;
+
+	@Test
+	void contextLoads() {
+		//測試DepartmentDao增刪改
+		Department entityD = new Department();
+		entityD.setDepartment_id("1");
+		entityD.setDepartment_name("A");
+		departmentDao.save(entityD);
+		departmentDao.delete(entityD);
+		
+		//測試DepartmentService
+		DepartmentBean departmentBean = new DepartmentBean();
+		departmentBean.setDepartmentId("1");
+		departmentBean.setDepartmentName("A");
+		departmentService.save(departmentBean);
+		departmentService.delete(0);
+		departmentService.get(departmentBean);
+		
+		Employee entityE = new Employee();
+		entityE.setDepartment_id("1");
+		entityE.setName(employeeBean.getName());
+		entityE.setEmployee_id(employeeBean.getEmployeeId());
+		entityE.setDepartment_id(employeeBean.getDepartmentId());
+		entityE.setSex(employeeBean.getSex());
+		entityE.setPhone(employeeBean.getPhone());
+        entityE.setAddress(employeeBean.getAddress());
+        entityE.setAge(employeeBean.getAge());
+        entityE.setInsert_date(date);
+        entityE.setUpdate_date(date);
+		EmployeeDao.save(entityE);
+		EmployeeDao.delete(entityE);
+		
+		//測試DepartmentService
+		EmployeeBean employeeBean = new DepartmentBean();
+		employeeBean.setDepartmentId("1");
+		employeeBean.setDepartmentName("A");
+		employeeService.save(departmentBean);
+		employeeService.delete(0);
+		employeeService.get(departmentBean);
+	}
+
+}

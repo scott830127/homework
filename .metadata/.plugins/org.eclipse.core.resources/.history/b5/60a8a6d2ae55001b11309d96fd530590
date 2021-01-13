@@ -1,0 +1,44 @@
+package com.company.api;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import com.company.api.dao.DepartmentDao;
+import com.company.api.entity.Department;
+import com.company.api.service.DepartmentService;
+
+@SpringBootTest
+
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@MockBean
+	private DepartmentDao departmentDao;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@MockBean
+	private EmployeeDao employeeDao;
+
+	@Test
+	void contextLoads() {
+		Department entity = new Department();
+		entity.setDepartment_id("1");
+		entity.setDepartment_name("A");
+		departmentDao.save(entity);
+		
+		DepartmentBean departmentBean = new DepartmentBean();
+		departmentBean.setDepartmentId("1");
+		departmentBean.setDepartmentName("A");
+		departmentService.save(departmentBean);
+		
+		
+		
+	}
+
+}

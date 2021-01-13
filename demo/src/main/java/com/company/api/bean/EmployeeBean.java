@@ -1,6 +1,6 @@
 package com.company.api.bean;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 

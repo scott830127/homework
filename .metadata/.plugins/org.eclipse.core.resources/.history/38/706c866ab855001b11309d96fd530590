@@ -1,0 +1,31 @@
+package com.company.api;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import com.company.api.controller.Controller;
+
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@EnableJpaRepositories("com.company.springboot.hibernate.dao")
+@EntityScan("com.company.springboot.hibernate.entity")
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+		
+		Controller controller = context.getBean(Controller.class);
+		
+		HttpServletRequest req = new HttpServletRequest();
+//		departmentBean.setDepartmentId("1");
+//		departmentBean.setDepartmentName("A");
+//		controller.saveDepartment(departmentBean);
+
+	}
+
+}

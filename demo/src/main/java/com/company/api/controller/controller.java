@@ -20,7 +20,7 @@ import com.company.api.util.StringUtil;
 
 @RestController
 @RequestMapping("/api/company")
-public class controller {
+public class Controller {
 	
 	@Autowired
 	private EmployeeService employeeService;

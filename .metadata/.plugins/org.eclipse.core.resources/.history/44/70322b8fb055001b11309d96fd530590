@@ -1,0 +1,82 @@
+package com.company.api;
+
+import java.sql.Date;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import com.company.api.bean.DepartmentBean;
+import com.company.api.bean.EmployeeBean;
+import com.company.api.dao.DepartmentDao;
+import com.company.api.dao.EmployeeDao;
+import com.company.api.entity.Department;
+import com.company.api.entity.Employee;
+import com.company.api.service.DepartmentService;
+import com.company.api.service.EmployeeService;
+
+@SpringBootTest
+
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentService departmentService;
+	
+	@MockBean
+	private DepartmentDao departmentDao;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@MockBean
+	private EmployeeDao employeeDao;
+
+	@Test
+	void contextLoads() {
+		//測試DepartmentDao增刪改
+		Department entityD = new Department();
+		entityD.setDepartment_id("1");
+		entityD.setDepartment_name("A");
+		departmentDao.save(entityD);
+		departmentDao.delete(entityD);
+		
+		//測試DepartmentService
+		DepartmentBean departmentBean = new DepartmentBean();
+		departmentBean.setDepartmentId("1");
+		departmentBean.setDepartmentName("A");
+		departmentService.save(departmentBean);
+		departmentService.delete(0);
+		departmentService.get(departmentBean);
+		
+		Employee entityE = new Employee();
+		entityE.setDepartment_id("1");
+		entityE.setName("Curry");
+		entityE.setEmployee_id("30");
+		entityE.setDepartment_id("1");
+		entityE.setSex("boy");
+		entityE.setPhone("0911222333");
+        entityE.setAddress("Taipei");
+        entityE.setAge(30);
+        entityE.setInsert_date(new Date());
+        entityE.setUpdate_date(new Date());
+		employeeDao.save(entityE);
+		employeeDao.delete(entityE);
+		
+		//測試DepartmentService
+		EmployeeBean employeeBean = new EmployeeBean();
+		employeeBean.setName("Curry");
+		employeeBean.setEmployeeId("30");
+		employeeBean.setDepartmentId("1");
+		employeeBean.setSex("boy");
+		employeeBean.setPhone("0911222333");
+		employeeBean.setAddress("Taipei");
+		employeeBean.setAge(30);
+		employeeBean.setInsertDate(new Date());
+		employeeBean.setUpdateDate(new Date());
+		employeeService.save(departmentBean);
+		employeeService.delete(0);
+		employeeService.get(departmentBean);
+	}
+
+}

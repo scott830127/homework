@@ -1,0 +1,27 @@
+package com.company.api;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.company.api.bean.DepartmentBean;
+import com.company.api.service.DepartmentService;
+
+@SpringBootTest
+class DemoApplicationTests {
+	
+	@Autowired
+	private DepartmentService departmentService;
+
+	@Test
+	void contextLoads() {
+		DepartmentBean departmentBean = new DepartmentBean();
+		departmentBean.setDepartmentId("1");
+		departmentBean.setDepartmentName("A");
+		Mockito.when(departmentService.save(departmentBean)));
+	}
+
+}
